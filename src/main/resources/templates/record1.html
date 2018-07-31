@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords"
+          content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+
+    <title>评分录入页面</title>
+    <link rel="shortcut icon" href="../static/images/invoice-logo.jpg"
+          th:href="@{images/invoice-logo.jpg}" type="image/png">
+    
+    <!--common-->
+    <link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet">
+    <link href="../static/css/style-responsive.css" th:href="@{css/style-responsive.css}" rel="stylesheet">
+    <link href="../static/css/mystyle.css" th:href="@{css/mystyle.css}" rel="stylesheet">
+    <link href="../static/css/jquery.my-modal.1.1.css" th:href="@{css/jquery.my-modal.1.1.css}">
+    <link href="css/jquery.my-modal.1.1.css" th:href="@{css/jquery.my-modal.1.1.css}">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script th:src="@{js/html5shiv.js}"></script>
+    <script th:src="@{js/respond.min.js}"></script>
+    <![endif]-->
+<style>
+    .m-modal {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: none;
+        z-index: 1000;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, .2);
+    }
+
+    .m-modal-dialog {
+        font-family: "microsoft yahei", "宋体";
+        position: relative;
+        margin: 0 auto;
+        margin-top: -100%;
+        width: 1000px;
+        background-color: #ffffff;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+    }
+
+    .m-top {
+        border-bottom: 1px solid #EEEEEE;
+    }
+
+    .m-modal-title {
+        margin: 0;
+        color: #555;
+        font-size: 22px;
+        padding: 12px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .m-modal-close {
+        position: absolute;
+        right: 3px;
+        top: 3px;
+        display: inline-block;
+        font-size: 35px;
+        line-height: 20px;
+        color: #555;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .m-modal-close:hover {
+        color: #FF0033;
+    }
+
+    .m-middle {
+        padding: 12px;
+    }
+
+    .m-bottom {
+        border-top: 1px solid #EEEEEE;
+        padding: 12px;
+        overflow: hidden;
+    }
+
+    .m-bottom button {
+        font-family: "microsoft yahei", "宋体";
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        padding: 5px 20px;
+        float: right;
+        margin: 0 0 0 10px;
+        outline: none;
+        font-size: 14px;
+        color: #333;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .m-bottom button:hover {
+        color: #333;
+        background-color: #e6e6e6;
+        border-color: #adadad;
+    }
+
+    .m-bottom button:active {
+        color: #333;
+        background-color: #d4d4d4;
+        border-color:#d4d4d4;
+    }
+
+    .m-bottom .m-btn-cancel {}
+
+    .m-bottom .m-btn-sure {
+        color: #fff;
+        background-color: #337ab7;
+        border-color: #2e6da4;
+    }
+
+    .m-bottom .m-btn-sure:hover {
+        color: #fff;
+        background-color: #286090;
+        border-color: #204d74;
+    }
+
+    .m-bottom .m-btn-sure:active {
+        color: #fff;
+        background-color: #204d74;
+        border-color: #122b40;
+    }
+    .myedit-table table tr td {
+        padding: 2px;
+        text-align: center;
+        /*border-bottom: 1px solid #000000;*/
+    }
+    .myedit-table table tr th {
+        padding-left: 10px;
+        text-align: center;
+    }
+   
+    input{
+        width: 50px;
+        margin-left: 5px;
+        border-right: 0px;
+        border-top: 0px;
+        border-left: 0px;
+        border-bottom: 1px solid #ffcb37;
+        text-align: center;
+    }
+    #edit-table td{
+        border-bottom: 0px solid #aaa;
+    }
+
+
+</style>
+</head>
+<body class="sticky-header">
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side"  th:include="left_side_template :: leftside"></div>
+    <!-- left side end-->
+    <!-- main content start-->
+    <div class="main-content">
+        <!-- header section start-->
+        <div class="header-section" style="border-bottom: rgba(0,0,0,0.39) solid 1px;">
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+            <!--title start-->
+            <div style="width: 80%;margin-top: 15px;text-align: center;">
+                <span id="head-title"  style="font-size:30px;margin-left: 200px;"></span>
+                <div id="click" style="float:right;"></div>
+            </div>
+            <!--title end-->
+        </div>
+        <!-- header section end-->
+        
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            添加记录
+                            <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                     </span>
+                        </header>
+                        <div class="panel-body">
+                            <div  class="myedit-table">
+                                <table style="margin-bottom: 20px;">
+                                    <tr>
+                                        <th>评委：</th>
+                                        <th>
+                                            <select id="select-pingwei" class="form-control" style="width: 150px;">
+                                                <option th:each="pingwei,iterStat:${pingweiList}"
+                                                        th:value="${pingwei}"
+                                                        th:text="${pingwei}"></option>
+                                            </select>
+                                        </th>
+                                        <th><button id="reset-bt" type="button" class="btn btn-info">
+                                            清空输入框
+                                        </button>
+                                        </th>
+                                    </tr>
+                                </table>
+                                <div class="space15"></div>
+                                <table class="table">
+                                    <thead id="edit-header">
+                                    </thead>
+                                    <tbody id="edit-table">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <!--start-实时查询某评委的数据？-->
+            <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            查询记录
+                            <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                     </span>
+                        </header>
+                        <div class="panel-body">
+                            <div  class="myedit-table">
+                                <table style="margin-bottom: 20px;">
+                                    <tr>
+                                        <th>评委：</th>
+                                        <th>
+                                            <select id="search-pingwei" class="form-control" style="width: 150px;">
+                                                <option th:each="pingwei,iterStat:${pingweiList}"
+                                                        th:value="${pingwei}"
+                                                        th:text="${pingwei}"></option>
+                                            </select>
+                                        </th>
+                                        <th>你已录入该评委<span style="color: rgba(225,64,196,1);font-size: 25px;" id="search-tips">0</span>条数据</th>
+                                    </tr>
+                                </table>
+                                <div class="space15"></div>
+                                <table class="table table-striped"  >
+                                    <thead id="search-header">
+                                    </thead>
+                                    <tbody id="search-table">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+
+        <!--footer section start-->
+        <footer th:include="footer_template :: myfooter"></footer>
+        <!--footer section end-->
+    </div>
+    <!-- main content end-->
+</section>
+<!-- 模态框（Modal） -->
+<div class="m-modal">
+    <div class="m-modal-dialog">
+        <div class="m-top">
+            <h4 class="m-modal-title">
+                数据冲突,请编辑要保存的数据
+            </h4>
+            <span class="m-modal-close">&times;</span>
+        </div>
+        <div class="m-middle">
+            <table class="table table-bordered">
+                <thead id="modal-header">
+
+                </thead>
+                <tbody >
+                <tr class="bijao-tr">
+                    <td id="pingwei2">
+                    </td>
+                    <td id="works2">
+                    </td>
+                    <td id="option21">
+                    </td>
+                    <td id="option22">
+                    </td>
+                    <td id="option23">
+                    </td>
+                    <td id="option24">
+                    </td>
+                    <td id="option25">
+                    </td>
+                    <td id="option26">
+                    </td>
+                    <td id="editor1">
+                        编辑者
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input id="select-pingwei2" class="form-control modal-input" size="10"
+                               type="text" value="" readonly/>
+                    </td>
+                    <td>
+                        <input id="select-works2" class="form-control modal-input" size="10"
+                               type="text" value="" readonly/>
+                    </td>
+                    <td>
+                        <input id="option31" class="form-control modal-input" size="10"
+                               type="text" value="" />
+                    </td>
+                    <td>
+                        <input id="option32" class="form-control modal-input" size="10"
+                               type="text" value="" />
+                    </td>
+                    <td>
+                        <input id="option33" class="form-control modal-input" size="10"
+                               type="text" value="" />
+                    </td>
+                    <td>
+                        <input id="option34" class="form-control modal-input" size="10"
+                               type="text" value="" />
+                    </td>
+                    <td>
+                        <input id="option35" class="form-control modal-input" size="10"
+                               type="text" value="" />
+                    </td>
+                    <td>
+                        <input  id="option36" class="form-control modal-input" size="10"
+                               type="text" value="" />
+                    </td>
+                    <td id="editor2">
+                        编辑者
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="m-bottom">
+            <!--<button class="m-btn-sure">确定</button>-->
+
+            <button id="save-1" class="btn btn-info" style="color: #e10b0f;">
+                强制保存
+            </button>
+            <button class="m-btn-cancel">取消</button>
+        </div>
+    </div>
+</div>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="../static/js/jquery-1.10.2.min.js" th:src="@{js/jquery-1.10.2.min.js}"></script>
+<script src="../static/js/jquery-ui-1.9.2.custom.min.js" th:src="@{js/jquery-ui-1.9.2.custom.min.js}"></script>
+<script src="../static/js/jquery-migrate-1.2.1.min.js" th:src="@{js/jquery-migrate-1.2.1.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+<!--<script src="js/js/modernizr.min.js"></script>-->
+<script src="../static/js/jquery.nicescroll.js" th:src="@{js/jquery.nicescroll.js}"></script>
+<script src="../static/js/util-cookie.js" th:src="@{js/util-cookie.js}"></script>
+
+<!--common scripts for all pages-->
+<script src="../static/js/scripts.js"  th:src="@{js/scripts.js}"></script>
+<!--title time initialization-->
+<script src="../static/js/myjsfile.js" th:src="@{js/myjsfile.js}"></script>
+
+<!--模态框-->
+<script src="../static/js/jquery.my-modal.1.1.js"th:src="@{js/jquery.my-modal.1.1.js}"></script>
+
+<!---->
+<script src="../static/js/record.js"th:src="@{js/record.js}"></script>
+
+<script>
+    //模态框
+    var m1 = new MyModal.modal(function() {
+
+    });
+
+//    $('#modal-text').on("click", function() {
+//        m1.show();
+//    });
+
+</script>
+
+<script>
+
+    $(document).ready(function(){
+        var model = getCookie("model");
+        if(model==="本科组") $("#head-title").append("本科组评分录入");
+        else $("#head-title").append("高职高专组评分录入");
+        $("#record1").addClass("active");
+        generateEditTable();
+        generateSaveListener();
+        generateInputChangeListener();
+        resetAllInput();
+        var pingwei = $("#select-pingwei").val();
+        alert("当前录入评委为："+pingwei+"号评委的评分记录");
+        document.getElementById('select-pingwei').addEventListener('change',function(){
+            var pingwei = $("#select-pingwei").val();
+            alert("当前录入评委为："+pingwei+"号评委的评分记录");
+        });
+    });
+    document.getElementById('search-pingwei').addEventListener('change',function(){
+        searchListener();
+    });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords"
+          content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="股票金融风险预测平台">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="../static/images/invoice-logo.jpg"
+          th:href="@{images/invoice-logo.jpg}" type="image/png">
+
+    <title>计分系统</title>
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css" th:href="@{css/font-awesome.min.css}"/>
+    <!--dynamic table-->
+    <link href="../static/plugins/advanced-datatable/css/demo_page.css"  th:href="@{plugins/advanced-datatable/css/demo_page.css}"  rel="stylesheet"/>
+    <link href="../static/plugins/advanced-datatable/css/demo_table.css" th:href="@{plugins/advanced-datatable/css/demo_table.css}" rel="stylesheet"/>
+    <link href="../static/plugins/data-tables/DT_bootstrap.css" th:href="@{plugins/data-tables/DT_bootstrap.css}"/>
+
+    <!--common-->
+    <link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet">
+    <link href="../static/css/style-responsive.css" th:href="@{css/style-responsive.css}" rel="stylesheet">
+    <link href="../static/css/mystyle.css" th:href="@{css/mystyle.css}" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script th:src="@{js/html5shiv.js}"></script>
+    <script th:src="@{js/respond.min.js}"></script>
+    <![endif]-->
+    <style>
+        .emphasize{
+            color: #4c4ae1;
+        }
+        img{
+            width:100%;height: auto;
+        }
+    </style>
+</head>
+<body class="sticky-header">
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side"  th:include="left_side_template :: leftside"></div>
+    <!-- left side end-->
+    <!-- main content start-->
+    <div class="main-content">
+        <!-- header section start-->
+        <div class="header-section" style="border-bottom: rgba(0,0,0,0.39) solid 1px;">
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+            <!--title start-->
+            <div style="width: 80%;margin-top: 15px;text-align: center;">
+                <span id="head-title"  style="font-size:30px;margin-left: 200px;"></span>
+                <div id="click" style="float:right;"></div>
+            </div>
+            <!--title end-->
+        </div>
+        <!-- header section end-->
+        
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            <span >Excel文件列表</span>
+                            <span class="tools pull-right" >
+                                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            </span>
+
+                        </header>
+                        <div class="panel-body">
+                            <!--相对平均分-->
+                            <div class="adv-table">
+                                <table class="display table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>文件名</th>
+                                        <th style="text-align: center;">文件大小</th>
+                                        <th style="text-align: center;">更新时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="fileInfo:${fileInfoList}">
+                                        <td style="color: rgb(13,225,137);font-size: 20px; text-align: left;">
+                                            <a href="#" th:href="|/score/getExcel1?fileName=${fileInfo.name}|">
+                                                <i class="fa fa-file-excel-o"></i>
+                                                <span  th:text="${fileInfo.name}">文件名</span>
+                                            </a>
+                                        </td>
+                                        <td><span style="color: #1f7be1;" th:text="${fileInfo.size}">10</span>&nbsp;KB</td>
+                                        <td th:text="${fileInfo.updateTime}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            <span >评分录入说明</span>
+                            <span class="emphasize">(重要)</span>
+                            <span class="tools pull-right" >
+                                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            </span>
+
+                        </header>
+                        <div class="panel-body" style="background-color: rgba(0,0,0,0.19);color: rgba(0,0,0,0.99);">
+                            <div>
+                                <h3>1.进入<span class="emphasize">评分录入</span>页面</h3>
+                                <h5>每次进入<span class="emphasize">评分录入</span>页面，或是<span class="emphasize">更改</span>
+                                    录入评分的评委，都会弹出<span class="emphasize">当前录入评委编号</span>的提示</h5>
+                                <h5>如下图：进入评分录入页面</h5>
+                                <img src="../static/images/index/评分录入1.jpg" th:src="@{images/index/评分录入1.jpg}"/>
+                            </div>
+                            <div>
+                                <h3>2.录入<span class="emphasize">评分记录</span></h3>
+                                <h5>开始输入某评委的对某作品的评分，<span class="emphasize">保存</span>按钮将变为红色，代表该行数据正处于<span class="emphasize">编辑</span>
+                                    状态。</h5>
+                                <h5>点击<span class="emphasize">保存</span>按钮，保存数据；如果存在<span class="emphasize">非数值、空值、超出限定值</span>
+                                    则显示数据不合法，需要重新编辑</h5>
+                                <h5>如下图：输入空值</h5>
+                                <img src="../static/images/index/评分录入2.jpg" th:src="@{images/index/评分录入2.jpg}"/>
+                            </div>
+                            <div>
+                                <h3>3.数据不一致</h3>
+                                <h5>录入数据时，如若该次保存数据和数据库中已有<span class="emphasize">数据不一致</span>，则会弹出“数据不一致提示”</h5>
+                                <h5>如下图：提示数据不一致</h5>
+                                <img src="../static/images/index/评分录入3.jpg" th:src="@{images/index/评分录入3.jpg}"/>
+                                <h5>并且随后显示不一致的<span class="emphasize">记录对比</span></h5>
+                                <h4 style="color: rgba(225,11,15,0.99);">请在此时仔细核查评分记录！</h4>
+                                <h5>如下图：显示差异</h5>
+                                <img src="../static/images/index/评分录入4.jpg" th:src="@{images/index/评分录入4.jpg}"/>
+                                <h5>确认更改记录后，点击<span class="emphasize">强制保存</span>，保存评分记录，保存成功或保存失败都会产生相应的提示信息</h5>
+                                <h5>如下图：强制保存成功</h5>
+                                <img src="../static/images/index/评分录入5.jpg" th:src="@{images/index/评分录入5.jpg}"/>
+                            </div>
+                            <div>
+                                <h3>4.编辑页面</h3>
+                                <h5>录入评分信息后，如果该行评分信息未保存，则“<span class="emphasize">保存</span>”按钮为红色，如果该行未编辑过，或是已经成功保存，
+                                    则“<span class="emphasize">保存</span>”按钮为绿色</h5>
+                                <h5>如下图：作品1的评分已经保存成功，作品2和作品3评分处于正在编辑状态，<span class="emphasize">未保存</span></h5>
+                                <img src="../static/images/index/评分录入6.jpg" th:src="@{images/index/评分录入6.jpg}"/>
+                                <h5>如果<span class="emphasize">更换</span>录入评分的评委，即使当前页面仍存在前面的数据，也可以直接在对应作品上进行编辑/录入</h5>
+                                <h5>但是<span class="emphasize">建议</span>，点击<span class="emphasize">清空输入框</span>按钮，清空当前输入页面所有数据，重新输入</h5>
+                                <h5>如下图：</h5>
+                                <img src="../static/images/index/评分录入7.jpg" th:src="@{images/index/评分录入7.jpg}"/>
+
+
+                                
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+        <!--footer section start-->
+        <footer th:include="footer_template :: myfooter"></footer>
+        <!--footer section end-->
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="../static/js/jquery-1.10.2.min.js" th:src="@{js/jquery-1.10.2.min.js}"></script>
+<script src="../static/js/jquery-ui-1.9.2.custom.min.js" th:src="@{js/jquery-ui-1.9.2.custom.min.js}"></script>
+<script src="../static/js/jquery-migrate-1.2.1.min.js" th:src="@{js/jquery-migrate-1.2.1.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+<!--<script src="js/js/modernizr.min.js"></script>-->
+<script src="../static/js/jquery.nicescroll.js" th:src="@{js/jquery.nicescroll.js}"></script>
+<script src="../static/js/util-cookie.js" th:src="@{js/util-cookie.js}"></script>
+
+<!--common scripts for all pages-->
+<script src="../static/js/scripts.js"  th:src="@{js/scripts.js}"></script>
+<!--title time initialization-->
+<script src="../static/js/myjsfile.js" th:src="@{js/myjsfile.js}"></script>
+
+
+
+<!--dynamic table-->
+<script src="../static/plugins/advanced-datatable/js/jquery.dataTables.js" th:src="@{plugins/advanced-datatable/js/jquery.dataTables.js}"></script>
+<script src="../static/plugins/data-tables/DT_bootstrap.js" th:src="@{plugins/data-tables/DT_bootstrap.js}"></script>
+<!--dynamic table initialization -->
+<script src="../static/plugins/advanced-datatable/dynamic_table_init.js" th:src="@{plugins/advanced-datatable/dynamic_table_init.js}"></script>
+<script>
+    $(document).ready(function(){
+        $("#head-title").append("计分系统");
+        $("#home").addClass("active");
+//        var model = getCookie("role");
+//        //alert("model1"+model);
+//        if(model<1)alert("model2"+model);
+    });
+</script>
+</body>
+</html>

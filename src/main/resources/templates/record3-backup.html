@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords"
+          content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+
+    <title>评分录入记录</title>
+    <link rel="shortcut icon" href="../static/images/invoice-logo.jpg"
+          th:href="@{images/invoice-logo.jpg}" type="image/png">
+    <!--dynamic table-->
+    <link href="../static/plugins/advanced-datatable/css/demo_page.css"  th:href="@{plugins/advanced-datatable/css/demo_page.css}"  rel="stylesheet"/>
+    <link href="../static/plugins/advanced-datatable/css/demo_table.css" th:href="@{plugins/advanced-datatable/css/demo_table.css}" rel="stylesheet"/>
+    <link href="../static/plugins/data-tables/DT_bootstrap.css" th:href="@{plugins/data-tables/DT_bootstrap.css}"/>
+
+    <!--common-->
+    <link href="../static/css/style.css" th:href="@{css/style.css}" rel="stylesheet">
+    <link href="../static/css/style-responsive.css" th:href="@{css/style-responsive.css}" rel="stylesheet">
+    <link href="../static/css/mystyle.css" th:href="@{css/mystyle.css}" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script th:src="@{js/html5shiv.js}"></script>
+    <script th:src="@{js/respond.min.js}"></script>
+    <![endif]-->
+</head>
+
+<body class="sticky-header">
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side"  th:include="left_side_template :: leftside"></div>
+    <!-- left side end-->
+
+    <!-- main content start-->
+    <div class="main-content">
+        <!-- header section start-->
+        <div class="header-section" style="border-bottom: rgba(0,0,0,0.39) solid 1px;">
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+            <!--title start-->
+            <div style="width: 80%;margin-top: 15px;text-align: center;">
+                <span id="head-title"  style="font-size:30px;margin-left: 200px;"></span>
+                <div id="click" style="float:right;"></div>
+            </div>
+            <!--title end-->
+        </div>
+        <!-- header section end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+
+            <!--所有股票聚类结果 start-->
+            <div class="row">
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            添加过的记录
+                            <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-down"></a>
+             </span>
+                        </header>
+                        <div class="panel-body">
+                            <table style="margin-bottom: 20px;">
+                                <thead>
+                                <tr>
+                                    <th>评委：</th>
+                                    <th>
+                                        <select id="select-pingwei" class="form-control" style="width: 150px;">
+                                            <option th:each="pingwei,iterStat:${pingweiList}"
+                                                    th:value="${pingwei}"
+                                                    th:text="${pingwei}"></option>
+                                        </select>
+                                    </th>
+                                    <th>
+                                        &nbsp;&nbsp;&nbsp;
+                                    </th>
+                                    <th>
+                                        <!--<button id="export-bt" type="button" class="btn btn-success">导出该评委评分表</button>-->
+                                        <div id="export-bt">
+                                            <a data-type="xls" href="javascript:;">导出excel</a>
+                                            <!--<a data-type="csv" href="javascript:;">导出csv</a>-->
+                                            <!--<a data-type="pdf" href="javascript:;">导出pdf</a>-->
+                                        </div>
+                                    </th>
+                                </tr>
+                                </thead>
+                            </table>
+                            <div class="adv-table">
+                                <table class="display table table-bordered table-striped" id="dynamic-table">
+                                    <thead>
+                                    <tr>
+                                        <th>作品编号</th>
+                                        <th>作品名称</th>
+                                        <th>选题</th>
+                                        <th>科学性</th>
+                                        <th>创新性</th>
+                                        <th>难/易程度</th>
+                                        <th>价值及效果</th>
+                                        <th>文档及答辩</th>
+                                        <th>总分</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="scores-list">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!--所有股票聚类结果 end-->
+        </div>
+        <!--body wrapper end-->
+        <!--footer section start-->
+        <footer th:include="footer_template :: myfooter"></footer>
+        <!--footer section end-->
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="../static/js/jquery-1.10.2.min.js" th:src="@{js/jquery-1.10.2.min.js}"></script>
+<script src="../static/js/jquery-ui-1.9.2.custom.min.js" th:src="@{js/jquery-ui-1.9.2.custom.min.js}"></script>
+<script src="../static/js/jquery-migrate-1.2.1.min.js" th:src="@{js/jquery-migrate-1.2.1.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+<!--<script src="js/js/modernizr.min.js"></script>-->
+<script src="../static/js/jquery.nicescroll.js" th:src="@{js/jquery.nicescroll.js}"></script>
+<script src="../static/js/util-cookie.js" th:src="@{js/util-cookie.js}"></script>
+
+<!--common scripts for all pages-->
+<script src="../static/js/scripts.js"  th:src="@{js/scripts.js}"></script>
+<!--title time initialization-->
+<script src="../static/js/myjsfile.js" th:src="@{js/myjsfile.js}"></script>
+
+<!--dynamic table-->
+<script src="../static/plugins/advanced-datatable/js/jquery.dataTables.js" th:src="@{plugins/advanced-datatable/js/jquery.dataTables.js}"></script>
+<script src="../static/plugins/data-tables/DT_bootstrap.js" th:src="@{plugins/data-tables/DT_bootstrap.js}"></script>
+<!--dynamic table initialization -->
+<script src="../static/plugins/advanced-datatable/dynamic_table_init.js" th:src="@{plugins/advanced-datatable/dynamic_table_init.js}"></script>
+
+<!--title time initialization-->
+<script src="../static/js/tableExport.js" th:src="@{js/tableExport.js}"></script>
+
+<script>
+    //根据评委和model查询该评委的所有打分数据
+
+    $.ajaxSettings.async = false;
+    function selectByPidAndModel(pid,model){
+        var url = "/pingweiScore/selectByPidAndModel?pid="+pid+"&model="+model;
+        var result = null;
+        $.get(url,function(data,status){
+            alert("数据: " + data + "\n状态: " + status);
+            if(data.result===1) {
+                result = data.pingweiScoreList;
+            }
+        });
+        var str ="return result="+result;
+        alert(str);
+        return result;
+    }
+    $(document).ready(function(){
+        var model = getCookie("model");
+        $("#head-title").append("评分录入记录-"+model);
+        $("#record3").addClass("active");
+    });
+    //监听选择框改变事件
+    document.getElementById('select-pingwei').addEventListener('change',function(){
+        var pingwei = $("#select-pingwei").val();
+        var model = getCookie("model");
+        $("#scores-list").empty();
+
+        var pingweiScoreList = selectByPidAndModel(pingwei,model);
+        if(pingweiScoreList!==null){
+            for (var i=0;i<pingweiScoreList.length;i++){
+                var str ="<tr>"+
+                    "<td>"+pingweiScoreList[i].proId+"</td>"+
+                    "<td>"+pingweiScoreList[i].proName+"</td>"+
+                    "<td>"+pingweiScoreList[i].option1+"</td>"+
+                    "<td>"+pingweiScoreList[i].option2+"</td>"+
+                    "<td>"+pingweiScoreList[i].option3+"</td>"+
+                    "<td>"+pingweiScoreList[i].option4+"</td>"+
+                    "<td>"+pingweiScoreList[i].option5+"</td>"+
+                    "<td>"+pingweiScoreList[i].option6+"</td>"+
+                    "<td>"+pingweiScoreList[i].totalScore+"</td>"+
+                    "</tr>";
+                $("#scores-list").append(str);
+            }
+        }
+    });
+</script>
+
+<script>
+    var $exportLink = document.getElementById('export-bt');
+    $exportLink.addEventListener('click', function(e) {
+        var pingwei = $("#select-pingwei").val();
+        var model = getCookie("model");
+        e.preventDefault();
+        if (e.target.nodeName === "A") {
+            tableExport('dynamic-table', model+pingwei, e.target.getAttribute('data-type'));
+        }
+    }, false);
+</script>
+</body>
+</html>
